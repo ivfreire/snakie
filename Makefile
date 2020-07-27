@@ -3,9 +3,9 @@ FLAGS				= -Wall
 
 MAIN				= src/main.cpp
 INPUT				=
-OUTPUT				= build/sneaky
+OUTPUT				= build/snaky
 
-INCLUDES			= src/game.cpp
+INCLUDES			= src/game.cpp src/world.cpp src/snake.cpp src/apple.cpp
 LIBRARIES			=
 DEPENDENCIES		= -lSDL2main -lSDL2
 

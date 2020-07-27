@@ -5,13 +5,20 @@
 int main(int argc, char* argv[]) {
 	SDL_Init(SDL_INIT_VIDEO);
 
+	Uint32 before;
+	float dtime;
 	int width, height;
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 	Game* game;
 	
-	width = 800;
-	height = 600;
+	if (argv[1] != NULL && argv[2] != NULL) {
+		width = atoi(argv[1]);
+		height = atoi(argv[2]);
+	} else {
+		width = 1000;
+		height = 800;
+	}
 	window = SDL_CreateWindow(
 		"Snaky",
 		SDL_WINDOWPOS_CENTERED,
@@ -22,23 +29,30 @@ int main(int argc, char* argv[]) {
 	renderer = SDL_CreateRenderer(window, -1, 0);
 
 	game = new Game(&width, &height);
+	game->Start();
+
+	before = SDL_GetTicks();
+	dtime = 0.0f;
 
 	bool running = true;
 	while (running) {
 		SDL_Event ev;
 		SDL_PollEvent(&ev);
 		if (ev.type == SDL_QUIT) running = false;
+		if (ev.type == SDL_KEYDOWN) if (ev.key.keysym.sym == SDLK_ESCAPE) running = false;
 		game->PollEvent(ev);
 
-		game->Update(0.016f);
+		game->Update(dtime);
 
-		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+		SDL_SetRenderDrawColor(renderer, 33, 33, 33, 255);
 		SDL_RenderClear(renderer);
-
-		// Rendering code here...
 		game->Render(renderer);
-
 		SDL_RenderPresent(renderer);
+
+		Uint32 dtick = float(SDL_GetTicks() - before);
+		dtime = dtick / 1000.0f; 
+		before = SDL_GetTicks();
+		if (dtick < 16) SDL_Delay(16 - dtick);
 	}
 
 	game->~Game();
