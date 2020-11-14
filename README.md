@@ -11,17 +11,11 @@ To run the game execute the executable. You can also specify the window resoluti
 
 ### Prerequisites
 
-To compile this project, you should have installed the any C/C++ compiler and also SDL2.0 development library. You should check with you distro how to install these packages.
+To compile this project, you should have installed any C/C++ compiler and also SDL2.0 development library. You should check with you distro how to install these packages.
 
 ### Building
 
-In the repository root run
-
-```
-make
-```
-
-to compile. Thus, a new executable will appear in build
+On this repository root run `make`to compile.
 
 ## Built With
 
@@ -37,4 +31,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-* Thanks for everyone who played :)
+* Thanks for playing! :)
