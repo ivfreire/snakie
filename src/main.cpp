@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
 		height = 800;
 	}
 	window = SDL_CreateWindow(
-		"Snaky",
+		"Snakie",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
 		width, height,
@@ -53,6 +53,7 @@ int main(int argc, char* argv[]) {
 		dtime = dtick / 1000.0f; 
 		before = SDL_GetTicks();
 		if (dtick < 16) SDL_Delay(16 - dtick);
+		if (dtime > 1) dtime = 0;
 	}
 
 	game->~Game();

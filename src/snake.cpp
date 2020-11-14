@@ -21,7 +21,9 @@ void Snake::Update(float dtime) {
 		this->y * this->height,
 		this->width,
 		this->height
-	};	
+	};
+
+	for (int i = 0; i < MAX_TAILS; i++) if (this->tails[i].is_live) this->tails[i].Animate(dtime, this->length);
 }
 
 void Snake::Render(SDL_Renderer* rdr) {
@@ -29,7 +31,7 @@ void Snake::Render(SDL_Renderer* rdr) {
 	SDL_RenderFillRect(rdr, &this->rect);
 
 	for (int i = 0; i < MAX_TAILS; i++) if (this->tails[i].is_live)
-		this->tails[i].render(rdr);
+		this->tails[i].Render(rdr);
 }
 
 
@@ -52,7 +54,7 @@ void Snake::Tick() {
 	if (this->facing == 3) this->y += 1;
 
 	for (int i = 0; i < MAX_TAILS; i++) if (this->tails[i].is_live) {
-		this->tails[i].tick();
+		this->tails[i].Tick();
 		this->CheckForCollision(this->tails[i]);
 	}
 }
@@ -60,7 +62,6 @@ void Snake::Tick() {
 
 void Snake::Grow() {
 	this->length += 1;
-	std::cout << this->length << std::endl;
 }
 
 
@@ -84,4 +85,24 @@ void Snake::Rebirth() {
 
 Snake::~Snake() {
 
+}
+
+
+
+
+void Tail::Animate(float dtime, int length) {
+	this->_rect.w = (int)(this->rect.w * this->lifetime / length);
+	this->_rect.h = (int)(this->rect.h * this->lifetime / length);
+	this->_rect.x = this->rect.x + (int)((this->rect.w - this->_rect.w) / 2);
+	this->_rect.y = this->rect.y + (int)((this->rect.h - this->_rect.h) / 2);
+}
+
+void Tail::Tick() {
+	this->lifetime -= 1;
+	if (this->lifetime <= 0)
+	this->is_live = false;
+}
+
+void Tail::Render(SDL_Renderer* rdr) {
+	SDL_RenderFillRect(rdr, &this->_rect);
 }

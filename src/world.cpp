@@ -39,9 +39,22 @@ void World::SpawnRedApple() {
 	bool found = false;
 	for (int i = 0; i < MAX_APPLES && !found; i++)
 		if (this->apples[i] == NULL) {
+			int x = rand() % this->width;
+			int y = rand() % this->height;
+
+			bool inTail = true;
+			while (inTail) {
+				for (Tail tail : this->snake->tails) {
+					if (x == tail.x && y == tail.y) {
+						x = (x + 1) % this->width;
+						break;
+					}
+				}
+				inTail = false;
+			}
+
 			this->apples[i] = new Apple(
-				rand() % this->width,
-				rand() % this->height,
+				x, y,
 				this->cellwidth,
 				this->cellheight,
 				0
